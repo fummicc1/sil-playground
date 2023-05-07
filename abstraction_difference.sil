@@ -1,4 +1,4 @@
-sil_stage canonical
+sil_stage raw
 
 import Builtin
 import Swift
@@ -25,52 +25,54 @@ sil_global hidden @$s22abstraction_difference6intGenAA9GeneratorVySiGvp : $Gener
 sil_global hidden @$s22abstraction_difference7intGen2AA12IntGeneratorVvp : $IntGenerator
 
 // main
-sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+sil [ossa] @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
 bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
   alloc_global @$s22abstraction_difference6intGenAA9GeneratorVySiGvp // id: %2
-  %3 = global_addr @$s22abstraction_difference6intGenAA9GeneratorVySiGvp : $*Generator<Int>
-  alloc_global @$s22abstraction_difference7intGen2AA12IntGeneratorVvp // id: %4
-  %5 = global_addr @$s22abstraction_difference7intGen2AA12IntGeneratorVvp : $*IntGenerator
-  %6 = integer_literal $Builtin.Int32, 0          // user: %7
-  %7 = struct $Int32 (%6 : $Builtin.Int32)        // user: %8
-  return %7 : $Int32                              // id: %8
+  %3 = global_addr @$s22abstraction_difference6intGenAA9GeneratorVySiGvp : $*Generator<Int> // user: %4
+  %4 = mark_uninitialized [var] %3 : $*Generator<Int>
+  alloc_global @$s22abstraction_difference7intGen2AA12IntGeneratorVvp // id: %5
+  %6 = global_addr @$s22abstraction_difference7intGen2AA12IntGeneratorVvp : $*IntGenerator // user: %7
+  %7 = mark_uninitialized [var] %6 : $*IntGenerator
+  %8 = integer_literal $Builtin.Int32, 0          // user: %9
+  %9 = struct $Int32 (%8 : $Builtin.Int32)        // user: %10
+  return %9 : $Int32                              // id: %10
 } // end sil function 'main'
 
 // Generator.fn.getter
-sil hidden [transparent] @$s22abstraction_difference9GeneratorV2fnxycvg : $@convention(method) <T> (@guaranteed Generator<T>) -> @owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> {
+sil hidden [transparent] [ossa] @$s22abstraction_difference9GeneratorV2fnxycvg : $@convention(method) <T> (@guaranteed Generator<T>) -> @owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> {
 // %0 "self"                                      // users: %2, %1
-bb0(%0 : $Generator<T>):
+bb0(%0 : @guaranteed $Generator<T>):
   debug_value %0 : $Generator<T>, let, name "self", argno 1, implicit // id: %1
-  %2 = struct_extract %0 : $Generator<T>, #Generator.fn // users: %4, %3
-  strong_retain %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %3
-  return %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %4
+  %2 = struct_extract %0 : $Generator<T>, #Generator.fn // user: %3
+  %3 = copy_value %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // user: %4
+  return %3 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %4
 } // end sil function '$s22abstraction_difference9GeneratorV2fnxycvg'
 
 // Generator.fn.setter
-sil hidden [transparent] @$s22abstraction_difference9GeneratorV2fnxycvs : $@convention(method) <T> (@owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, @inout Generator<T>) -> () {
-// %0 "value"                                     // users: %11, %8, %4, %2
-// %1 "self"                                      // users: %5, %3
-bb0(%0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, %1 : $*Generator<T>):
-  debug_value %0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, let, name "value", argno 1, implicit // id: %2
-  debug_value %1 : $*Generator<T>, var, name "self", argno 2, implicit, expr op_deref // id: %3
-  strong_retain %0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %4
-  %5 = begin_access [modify] [static] %1 : $*Generator<T> // users: %10, %6
-  %6 = struct_element_addr %5 : $*Generator<T>, #Generator.fn // users: %8, %7
-  %7 = load %6 : $*@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // user: %9
-  store %0 to %6 : $*@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %8
-  strong_release %7 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %9
-  end_access %5 : $*Generator<T>                  // id: %10
-  strong_release %0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %11
+sil hidden [transparent] [ossa] @$s22abstraction_difference9GeneratorV2fnxycvs : $@convention(method) <T> (@owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, @inout Generator<T>) -> () {
+// %0 "value"                                     // users: %11, %2
+// %1 "self"                                      // users: %6, %4
+bb0(%0 : @owned $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, %1 : $*Generator<T>):
+  %2 = begin_borrow [lexical] %0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // users: %10, %5, %3
+  debug_value %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, let, name "value", argno 1, implicit // id: %3
+  debug_value %1 : $*Generator<T>, var, name "self", argno 2, implicit, expr op_deref // id: %4
+  %5 = copy_value %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // user: %8
+  %6 = begin_access [modify] [unknown] %1 : $*Generator<T> // users: %9, %7
+  %7 = struct_element_addr %6 : $*Generator<T>, #Generator.fn // user: %8
+  assign %5 to %7 : $*@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %8
+  end_access %6 : $*Generator<T>                  // id: %9
+  end_borrow %2 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %10
+  destroy_value %0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> // id: %11
   %12 = tuple ()                                  // user: %13
   return %12 : $()                                // id: %13
 } // end sil function '$s22abstraction_difference9GeneratorV2fnxycvs'
 
 // Generator.fn.modify
-sil hidden [transparent] @$s22abstraction_difference9GeneratorV2fnxycvM : $@yield_once @convention(method) <T> (@inout Generator<T>) -> @yields @inout @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> {
+sil hidden [transparent] [ossa] @$s22abstraction_difference9GeneratorV2fnxycvM : $@yield_once @convention(method) <T> (@inout Generator<T>) -> @yields @inout @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T> {
 // %0 "self"                                      // users: %2, %1
 bb0(%0 : $*Generator<T>):
   debug_value %0 : $*Generator<T>, var, name "self", argno 1, implicit, expr op_deref // id: %1
-  %2 = begin_access [modify] [static] %0 : $*Generator<T> // users: %5, %8, %3
+  %2 = begin_access [modify] [unknown] %0 : $*Generator<T> // users: %5, %8, %3
   %3 = struct_element_addr %2 : $*Generator<T>, #Generator.fn // user: %4
   yield %3 : $*@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, resume bb1, unwind bb2 // id: %4
 
@@ -85,49 +87,49 @@ bb2:                                              // Preds: bb0
 } // end sil function '$s22abstraction_difference9GeneratorV2fnxycvM'
 
 // Generator.init(fn:)
-sil hidden @$s22abstraction_difference9GeneratorV2fnACyxGxyc_tcfC : $@convention(method) <T> (@owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, @thin Generator<T>.Type) -> @owned Generator<T> {
+sil hidden [ossa] @$s22abstraction_difference9GeneratorV2fnACyxGxyc_tcfC : $@convention(method) <T> (@owned @callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, @thin Generator<T>.Type) -> @owned Generator<T> {
 // %0 "$implicit_value"                           // user: %2
 // %1 "$metatype"
-bb0(%0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, %1 : $@thin Generator<T>.Type):
+bb0(%0 : @owned $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>, %1 : $@thin Generator<T>.Type):
   %2 = struct $Generator<T> (%0 : $@callee_guaranteed @substituted <τ_0_0> () -> @out τ_0_0 for <T>) // user: %3
   return %2 : $Generator<T>                       // id: %3
 } // end sil function '$s22abstraction_difference9GeneratorV2fnACyxGxyc_tcfC'
 
 // IntGenerator.fn.getter
-sil hidden [transparent] @$s22abstraction_difference12IntGeneratorV2fnSiycvg : $@convention(method) (@guaranteed IntGenerator) -> @owned @callee_guaranteed () -> Int {
+sil hidden [transparent] [ossa] @$s22abstraction_difference12IntGeneratorV2fnSiycvg : $@convention(method) (@guaranteed IntGenerator) -> @owned @callee_guaranteed () -> Int {
 // %0 "self"                                      // users: %2, %1
-bb0(%0 : $IntGenerator):
+bb0(%0 : @guaranteed $IntGenerator):
   debug_value %0 : $IntGenerator, let, name "self", argno 1, implicit // id: %1
-  %2 = struct_extract %0 : $IntGenerator, #IntGenerator.fn // users: %4, %3
-  strong_retain %2 : $@callee_guaranteed () -> Int // id: %3
-  return %2 : $@callee_guaranteed () -> Int       // id: %4
+  %2 = struct_extract %0 : $IntGenerator, #IntGenerator.fn // user: %3
+  %3 = copy_value %2 : $@callee_guaranteed () -> Int // user: %4
+  return %3 : $@callee_guaranteed () -> Int       // id: %4
 } // end sil function '$s22abstraction_difference12IntGeneratorV2fnSiycvg'
 
 // IntGenerator.fn.setter
-sil hidden [transparent] @$s22abstraction_difference12IntGeneratorV2fnSiycvs : $@convention(method) (@owned @callee_guaranteed () -> Int, @inout IntGenerator) -> () {
-// %0 "value"                                     // users: %11, %8, %4, %2
-// %1 "self"                                      // users: %5, %3
-bb0(%0 : $@callee_guaranteed () -> Int, %1 : $*IntGenerator):
-  debug_value %0 : $@callee_guaranteed () -> Int, let, name "value", argno 1, implicit // id: %2
-  debug_value %1 : $*IntGenerator, var, name "self", argno 2, implicit, expr op_deref // id: %3
-  strong_retain %0 : $@callee_guaranteed () -> Int // id: %4
-  %5 = begin_access [modify] [static] %1 : $*IntGenerator // users: %10, %6
-  %6 = struct_element_addr %5 : $*IntGenerator, #IntGenerator.fn // users: %8, %7
-  %7 = load %6 : $*@callee_guaranteed () -> Int   // user: %9
-  store %0 to %6 : $*@callee_guaranteed () -> Int // id: %8
-  strong_release %7 : $@callee_guaranteed () -> Int // id: %9
-  end_access %5 : $*IntGenerator                  // id: %10
-  strong_release %0 : $@callee_guaranteed () -> Int // id: %11
+sil hidden [transparent] [ossa] @$s22abstraction_difference12IntGeneratorV2fnSiycvs : $@convention(method) (@owned @callee_guaranteed () -> Int, @inout IntGenerator) -> () {
+// %0 "value"                                     // users: %11, %2
+// %1 "self"                                      // users: %6, %4
+bb0(%0 : @owned $@callee_guaranteed () -> Int, %1 : $*IntGenerator):
+  %2 = begin_borrow [lexical] %0 : $@callee_guaranteed () -> Int // users: %10, %5, %3
+  debug_value %2 : $@callee_guaranteed () -> Int, let, name "value", argno 1, implicit // id: %3
+  debug_value %1 : $*IntGenerator, var, name "self", argno 2, implicit, expr op_deref // id: %4
+  %5 = copy_value %2 : $@callee_guaranteed () -> Int // user: %8
+  %6 = begin_access [modify] [unknown] %1 : $*IntGenerator // users: %9, %7
+  %7 = struct_element_addr %6 : $*IntGenerator, #IntGenerator.fn // user: %8
+  assign %5 to %7 : $*@callee_guaranteed () -> Int // id: %8
+  end_access %6 : $*IntGenerator                  // id: %9
+  end_borrow %2 : $@callee_guaranteed () -> Int   // id: %10
+  destroy_value %0 : $@callee_guaranteed () -> Int // id: %11
   %12 = tuple ()                                  // user: %13
   return %12 : $()                                // id: %13
 } // end sil function '$s22abstraction_difference12IntGeneratorV2fnSiycvs'
 
 // IntGenerator.fn.modify
-sil hidden [transparent] @$s22abstraction_difference12IntGeneratorV2fnSiycvM : $@yield_once @convention(method) (@inout IntGenerator) -> @yields @inout @callee_guaranteed () -> Int {
+sil hidden [transparent] [ossa] @$s22abstraction_difference12IntGeneratorV2fnSiycvM : $@yield_once @convention(method) (@inout IntGenerator) -> @yields @inout @callee_guaranteed () -> Int {
 // %0 "self"                                      // users: %2, %1
 bb0(%0 : $*IntGenerator):
   debug_value %0 : $*IntGenerator, var, name "self", argno 1, implicit, expr op_deref // id: %1
-  %2 = begin_access [modify] [static] %0 : $*IntGenerator // users: %5, %8, %3
+  %2 = begin_access [modify] [unknown] %0 : $*IntGenerator // users: %5, %8, %3
   %3 = struct_element_addr %2 : $*IntGenerator, #IntGenerator.fn // user: %4
   yield %3 : $*@callee_guaranteed () -> Int, resume bb1, unwind bb2 // id: %4
 
@@ -142,10 +144,10 @@ bb2:                                              // Preds: bb0
 } // end sil function '$s22abstraction_difference12IntGeneratorV2fnSiycvM'
 
 // IntGenerator.init(fn:)
-sil hidden @$s22abstraction_difference12IntGeneratorV2fnACSiyc_tcfC : $@convention(method) (@owned @callee_guaranteed () -> Int, @thin IntGenerator.Type) -> @owned IntGenerator {
+sil hidden [ossa] @$s22abstraction_difference12IntGeneratorV2fnACSiyc_tcfC : $@convention(method) (@owned @callee_guaranteed () -> Int, @thin IntGenerator.Type) -> @owned IntGenerator {
 // %0 "$implicit_value"                           // user: %2
 // %1 "$metatype"
-bb0(%0 : $@callee_guaranteed () -> Int, %1 : $@thin IntGenerator.Type):
+bb0(%0 : @owned $@callee_guaranteed () -> Int, %1 : $@thin IntGenerator.Type):
   %2 = struct $IntGenerator (%0 : $@callee_guaranteed () -> Int) // user: %3
   return %2 : $IntGenerator                       // id: %3
 } // end sil function '$s22abstraction_difference12IntGeneratorV2fnACSiyc_tcfC'
