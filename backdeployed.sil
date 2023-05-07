@@ -47,8 +47,8 @@ bb0(%0 : $Printer):
   %5 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 0 // user: %17
   %6 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 1 // user: %7
   %7 = pointer_to_address %6 : $Builtin.RawPointer to [strict] $*Any // user: %14
-  %8 = string_literal utf8 "macOS 12以上macOS 13未満" // user: %13
-  %9 = integer_literal $Builtin.Word, 28          // user: %13
+  %8 = string_literal utf8 "macOS 12以上macOS 13未満ではなくmacOS 12以上のAPIになる" // user: %13
+  %9 = integer_literal $Builtin.Word, 69          // user: %13
   %10 = integer_literal $Builtin.Int1, 0          // user: %13
   %11 = metatype $@thin String.Type               // user: %13
   // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
@@ -169,8 +169,8 @@ bb0(%0 : $Printer):
   %5 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 0 // user: %17
   %6 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 1 // user: %7
   %7 = pointer_to_address %6 : $Builtin.RawPointer to [strict] $*Any // user: %14
-  %8 = string_literal utf8 "macOS 12以上macOS 13未満" // user: %13
-  %9 = integer_literal $Builtin.Word, 28          // user: %13
+  %8 = string_literal utf8 "macOS 12以上macOS 13未満ではなくmacOS 12以上のAPIになる" // user: %13
+  %9 = integer_literal $Builtin.Word, 69          // user: %13
   %10 = integer_literal $Builtin.Int1, 0          // user: %13
   %11 = metatype $@thin String.Type               // user: %13
   // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
