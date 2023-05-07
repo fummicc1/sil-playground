@@ -1,0 +1,40 @@
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+@_hasStorage @_hasInitialValue var a: Int { get set }
+
+// a
+sil_global hidden @$s12assign_value1aSivp : $Int
+
+// main
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  alloc_global @$s12assign_value1aSivp            // id: %2
+  %3 = global_addr @$s12assign_value1aSivp : $*Int // user: %6
+  %4 = integer_literal $Builtin.Int64, 2          // user: %5
+  %5 = struct $Int (%4 : $Builtin.Int64)          // user: %6
+  store %5 to %3 : $*Int                          // id: %6
+  %7 = integer_literal $Builtin.Int32, 0          // user: %8
+  %8 = struct $Int32 (%7 : $Builtin.Int32)        // user: %9
+  return %8 : $Int32                              // id: %9
+} // end sil function 'main'
+
+// Int.init(_builtinIntegerLiteral:)
+sil public_external [transparent] @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -> Int {
+// %0                                             // user: %2
+bb0(%0 : $Builtin.IntLiteral, %1 : $@thin Int.Type):
+  %2 = builtin "s_to_s_checked_trunc_IntLiteral_Int64"(%0 : $Builtin.IntLiteral) : $(Builtin.Int64, Builtin.Int1) // user: %3
+  %3 = tuple_extract %2 : $(Builtin.Int64, Builtin.Int1), 0 // user: %4
+  %4 = struct $Int (%3 : $Builtin.Int64)          // user: %5
+  return %4 : $Int                                // id: %5
+} // end sil function '$sSi22_builtinIntegerLiteralSiBI_tcfC'
+
+
+
+// Mappings from '#fileID' to '#filePath':
+//   'assign_value/assign_value.swift' => 'assign_value.swift'
+
+
