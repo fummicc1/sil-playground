@@ -1,10 +1,10 @@
 public struct Printer {
-    @available(macOS 13, *)
-    @backDeployed(before: macOS 14)
-    public func make() {
-        print("macOS 13 above")
+    @available(macOS 12, *)
+    @backDeployed(before: macOS 13)
+    public func call() {
+        print("macOS 12以上macOS 13未満")
     }
 }
 
 let printer = Printer()
-printer.make()
+printer.call()
